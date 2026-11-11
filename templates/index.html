@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Gere os arquivos de acerto de estoque BASF para importar na VTEX.">
+    <title>Acerto de estoque BASF</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script defer src="{{ url_for('static', filename='app.js') }}"></script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">BASF · VTEX</p>
+          <h1>Acerto de estoque</h1>
+          <p class="intro">Envie o relatório do GIX para gerar os arquivos de importação da VTEX.</p>
+        </div>
+        <form action="{{ url_for('logout') }}" method="post">
+          <button class="button button-secondary" type="submit">Sair</button>
+        </form>
+      </header>
+
+      <section class="panel" aria-labelledby="upload-title">
+        <h2 id="upload-title">Arquivos de entrada</h2>
+        <form id="process-form">
+          <label class="file-field" for="gix-file">
+            <span>Relatório de estoque do GIX <span class="required">(obrigatório)</span></span>
+            <input id="gix-file" name="gix_file" type="file" accept=".csv,text/csv" required>
+          </label>
+
+          <label class="file-field" for="mapping-file">
+            <span>Mapeamento GIX ↔ SKU VTEX <span class="optional">(opcional)</span></span>
+            <input id="mapping-file" name="mapping_file" type="file" accept=".csv,text/csv">
+            <small>Sem um arquivo, será usado o mapeamento incluído no projeto.</small>
+          </label>
+
+          <button id="submit-button" class="button button-primary" type="submit">Gerar arquivos</button>
+        </form>
+        <p id="status" class="status" role="status" aria-live="polite"></p>
+      </section>
+
+      <section id="result" class="panel result" aria-labelledby="result-title" hidden>
+        <div class="result-heading">
+          <div>
+            <h2 id="result-title">Arquivos prontos</h2>
+            <p id="record-count" class="muted"></p>
+          </div>
+          <div class="downloads">
+            <button id="download-csv" class="button button-secondary" type="button">Baixar CSV</button>
+            <button id="download-xls" class="button button-secondary" type="button">Baixar XLS</button>
+          </div>
+        </div>
+
+        <h3>Prévia</h3>
+        <div class="table-wrap">
+          <table>
+            <thead id="preview-head"></thead>
+            <tbody id="preview-body"></tbody>
+          </table>
+        </div>
+        <p id="preview-empty" class="muted" hidden>Nenhum SKU correspondente foi encontrado nos arquivos.</p>
+      </section>
+    </main>
+  </body>
+</html>
